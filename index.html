@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UBAIDH.S | Mathematician & Researcher</title>
+  
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* --- 2026 DESIGN SYSTEM & ANIMATION VARIABLES --- */
+    :root {
+      --bg-dark: #05070B;
+      --card-bg: rgba(255, 255, 255, 0.025);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(168, 85, 247, 0.5);
+      --accent-cyan: #38BDF8;
+      --accent-purple: #A855F7;
+      --accent-emerald: #34D399;
+      --text-main: #F8FAFC;
+      --text-muted: #94A3B8;
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Dynamic Background Glows */
+    .glow-blob {
+      position: fixed;
+      width: 550px;
+      height: 550px;
+      border-radius: 50%;
+      filter: blur(150px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.22;
+      animation: pulse-glow 12s ease-in-out infinite alternate;
+    }
+
+    .glow-1 {
+      top: -120px;
+      left: -120px;
+      background: var(--accent-purple);
+    }
+
+    .glow-2 {
+      bottom: -120px;
+      right: -120px;
+      background: var(--accent-cyan);
+    }
+
+    @keyframes pulse-glow {
+      0% { transform: scale(1) translate(0, 0); opacity: 0.18; }
+      100% { transform: scale(1.25) translate(40px, -40px); opacity: 0.3; }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* --- FLOATING NAVBAR WITH GLASSMORPHISM --- */
+    header {
+      position: fixed;
+      top: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 900px;
+      background: rgba(10, 14, 23, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 99px;
+      z-index: 1000;
+      padding: 0.75rem 1.8rem;
+      animation: slideDown 0.8s var(--ease-smooth);
+    }
+
+    @keyframes slideDown {
+      from { transform: translate(-50%, -100%); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      transition: width 0.3s var(--ease-smooth);
+      border-radius: 2px;
+    }
+
+    .nav-links a:hover {
+      color: var(--text-main);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 8.5rem 1.5rem 2.5rem;
+      text-align: center;
+      animation: revealUp 0.9s var(--ease-smooth);
+    }
+
+    @keyframes revealUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 1.1rem;
+      border-radius: 99px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      color: #D8B4FE;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.5px;
+      animation: float-badge 3.5s ease-in-out infinite alternate;
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.15);
+    }
+
+    @keyframes float-badge {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-8px); }
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--accent-emerald);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent-emerald);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #FFF 20%, var(--accent-cyan) 60%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-size: 200% auto;
+      animation: shine 5s linear infinite;
+    }
+
+    @keyframes shine {
+      to { background-position: 200% center; }
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 2rem;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+
+    /* --- BENTO GRID SYSTEM WITH INTERACTIVE SPOTLIGHT --- */
+    .bento-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem 6rem;
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+
+    .bento-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 1.75rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.4s var(--ease-smooth), border-color 0.4s ease, box-shadow 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: revealUp 0.8s var(--ease-smooth) both;
+    }
+
+    /* Card Mouse Cursor Spotlight Effect */
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: var(--mouse-y, -100px);
+      left: var(--mouse-x, -100px);
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    .bento-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px -12px rgba(168, 85, 247, 0.2);
+    }
+
+    /* Dynamic Canvas Hero Card */
+    .canvas-card {
+      padding: 0;
+      min-height: 340px;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(30, 41, 59, 0.4) 0%, rgba(5, 7, 11, 0.9) 100%);
+    }
+
+    #mathCanvas {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 24px;
+      cursor: crosshair;
+    }
+
+    .canvas-overlay {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      right: 1.5rem;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Bento Sizes */
+    .col-8 { grid-column: span 8; }
+    .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
+    .col-12 { grid-column: span 12; }
+
+    /* Profile Card with Ubaidh's Photo */
+    .profile-card {
+      display: flex;
+      flex-direction: row;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .profile-img-wrapper {
+      position: relative;
+      width: 110px;
+      height: 110px;
+      border-radius: 20px;
+      padding: 3px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      transition: transform 0.4s var(--ease-spring);
+    }
+
+    .profile-img-wrapper:hover {
+      transform: scale(1.08) rotate(-3deg);
+      box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+    }
+
+    .profile-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 17px;
+      object-fit: cover;
+      display: block;
+      background-color: var(--bg-dark);
+    }
+
+    .profile-info h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-info p {
+      color: var(--accent-cyan);
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .pill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .pill {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      padding: 0.35rem 0.85rem;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      transition: all 0.3s var(--ease-spring);
+    }
+
+    .pill:hover {
+      background: rgba(56, 189, 248, 0.15);
+      color: #FFF;
+      border-color: var(--accent-cyan);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 5px 15px rgba(56, 189, 248, 0.25);
+    }
+
+    .visual-card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      border-radius: 16px;
+      margin-bottom: 1rem;
+      transition: transform 0.6s var(--ease-smooth);
+    }
+
+    .bento-card:hover .visual-card img {
+      transform: scale(1.05);
+    }
+
+    .card-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Counter Animation Text */
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+      transition: transform 0.3s var(--ease-spring);
+    }
+
+    .bento-card:hover .stat-number {
+      transform: scale(1.08);
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .social-bar {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s var(--ease-spring);
+    }
+
+    .social-icon:hover {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      transform: translateY(-5px) scale(1.1);
+      box-shadow: 0 10px 20px -5px rgba(56, 189, 248, 0.4);
+    }
+
+    /* --- RESPONSIVE BREAKPOINTS --- */
+    @media (max-width: 992px) {
+      .col-8, .col-6, .col-4 { grid-column: span 12; }
+      .profile-card { flex-direction: column; text-align: center; }
+      .pill-tags { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AMBIENT GLOW BLOBS -->
+  <div class="glow-blob glow-1"></div>
+  <div class="glow-blob glow-2"></div>
+
+  <!-- FLOATING NAVBAR -->
+  <header>
+    <nav>
+      <div class="logo">
+        <i class="fa-solid fa-square-root-variable"></i> UBAIDH.S
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#visuals">Visuals</a></li>
+        <li><a href="#research">Research</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero" id="about">
+    <div class="badge">
+      <span class="badge-dot"></span> Postgraduate in Mathematics
+    </div>
+    <h1>Unlocking Complexity Through <span class="gradient-text">Mathematical Elegance</span></h1>
+    <p>Visualizing abstract topological surfaces, continuous manifolds, and algorithmic structures with modern mathematical modeling.</p>
+  </section>
+
+  <!-- BENTO GRID SECTION -->
+  <section class="bento-section" id="visuals">
+    <div class="bento-grid">
+
+      <!-- Card 1: INTERACTIVE MATHEMATICAL WAVE CANVAS (Col 8) -->
+      <div class="bento-card col-8 canvas-card">
+        <canvas id="mathCanvas"></canvas>
+        <div class="canvas-overlay">
+          <span class="badge" style="margin-bottom: 0.5rem; background: rgba(0,0,0,0.6);">
+            <i class="fa-solid fa-cube"></i> Interactive Topology Engine
+          </span>
+          <h3 class="card-title" style="color: #FFF;">Dynamic Wave Functions & Manifolds</h3>
+          <p class="card-desc" style="color: rgba(255,255,255,0.7);">Move your cursor over the mesh to distort vectors in real-time.</p>
+        </div>
+      </div>
+
+      <!-- Card 2: Profile Overview with Ubaidh's Photo (Col 4) -->
+      <div class="bento-card col-4">
+        <div>
+          <div class="profile-card">
+            <div class="profile-img-wrapper">
+              <img class="profile-img" src="UBBU.jpeg" alt="Ubaidh S">
+            </div>
+            <div class="profile-info">
+              <h3>Ubaidh.S</h3>
+              <p>M.Sc. Mathematics</p>
+            </div>
+          </div>
+          <div class="pill-tags">
+            <span class="pill">Topology</span>
+            <span class="pill">Graph Theory</span>
+            <span class="pill">LaTeX</span>
+            <span class="pill">Numerical Python</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Visual Image Card (Col 4) -->
+      <div class="bento-card col-4 visual-card">
+        <div>
+          <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=600&q=80" alt="Fractals">
+          <h4 class="card-title">Complex Systems</h4>
+          <p class="card-desc">Simulating boundary mechanics & fractal structures using dynamic models.</p>
+        </div>
+      </div>
+
+      <!-- Card 4: Stat Metric (Col 4) -->
+      <div class="bento-card col-4" style="justify-content: center;">
+        <div class="stat-number">100+</div>
+        <h4 class="card-title">Visual Proofs Rendered</h4>
+        <p class="card-desc">Interactive computational models produced for academic research and presentation.</p>
+      </div>
+
+      <!-- Card 5: Research Card (Col 4) -->
+      <div class="bento-card col-4 visual-card" id="research">
+        <div>
+          <img src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=600&q=80" alt="Math Notation">
+          <h4 class="card-title">Geometric Analysis</h4>
+          <p class="card-desc">Formal paper write-ups focusing on continuous manifolds and topological spaces.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="social-bar">
+      <a href="https://www.linkedin.com/in/ubaidh-s-859b7140a?utm_source=share_via&utm_content=profile&utm_medium=member_android" class="social-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+      <a href="#" class="social-icon" title="GitHub"><i class="fa-brands fa-github"></i></a>
+      <a href="#" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      <a href="#" class="social-icon" title="Scholar"><i class="fa-solid fa-graduation-cap"></i></a>
+    </div>
+    <p>&copy;2026 UBAIDH.S. All rights reserved.</p>
+  </footer>
+
+  <!-- INTERACTIVE SPOTLIGHT & CANVAS SCRIPT -->
+  <script>
+    // --- Mouse Spotlight Tracker on Bento Cards ---
+    document.querySelectorAll('.bento-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // --- Interactive 3D Canvas Wave Mesh ---
+    const canvas = document.getElementById('mathCanvas');
+    const ctx = canvas.getContext('2d');
+
+    let mouseX = -1000;
+    let mouseY = -1000;
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    canvas.addEventListener('mousemove', e => {
+      const rect = canvas.getBoundingClientRect();
+      mouseX = e.clientX - rect.left;
+      mouseY = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      mouseX = -1000;
+      mouseY = -1000;
+    });
+
+    let step = 0;
+
+    function drawMathWave() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      const rows = 18;
+      const cols = 32;
+      const spacingX = canvas.width / cols;
+      const spacingY = canvas.height / rows;
+
+      ctx.lineWidth = 1;
+
+      for (let i = 0; i < cols; i++) {
+        for (let j = 0; j < rows; j++) {
+          const x = i * spacingX;
+          const y = j * spacingY;
+          
+          // Distance calculation from center wave
+          const distFromCenter = Math.sqrt(Math.pow(i - cols / 2, 2) + Math.pow(j - rows / 2, 2));
+          let wave = Math.sin(distFromCenter * 0.4 - step * 0.05) * 15;
+
+          // Interactive Cursor Ripple Calculation
+          const distToMouse = Math.sqrt(Math.pow(x - mouseX, 2) + Math.pow(y - mouseY, 2));
+          if (distToMouse < 120) {
+            wave += Math.sin(distToMouse * 0.1 - step * 0.1) * (120 - distToMouse) * 0.3;
+          }
+
+          const renderX = x + Math.cos(step * 0.03 + j) * 8;
+          const renderY = y + wave;
+
+          const opacity = Math.max(0.1, 1 - distFromCenter / (cols / 1.5));
+          ctx.strokeStyle = `rgba(168, 85, 247, ${opacity * 0.4})`;
+          ctx.fillStyle = `rgba(56, 189, 248, ${opacity * 0.8})`;
+
+          // Draw Mesh Nodes
+          ctx.beginPath();
+          ctx.arc(renderX, renderY, distToMouse < 100 ? 3 : 2, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw Connecting Grid Lines
+          if (i < cols - 1) {
+            ctx.beginPath();
+            ctx.moveTo(renderX, renderY);
+            ctx.lineTo(renderX + spacingX, renderY);
+            ctx.stroke();
+          }
+        }
+      }
+
+      step += 1;
+      requestAnimationFrame(drawMathWave);
+    }
+
+    drawMathWave();
+  </script>
+</body>
+</html>
